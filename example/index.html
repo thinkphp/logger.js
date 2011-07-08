@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>Logger.js</title>
+<style type="text/css">
+
+body{margin-left: 100px;}
+
+#wrapperpanel {position:absolute;top:2%;left:70%;}
+#wrapperpanel div#firebug{border: 1px solid #ccc;height: 100px;overflow: auto;width: 300px}
+
+input{
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background-color:#fff;
+	border:1px solid #ccc;
+	font-size:20px;
+	width:300px;
+	min-height:30px;
+	display:block;
+	margin-bottom:16px;
+	margin-top:8px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+			
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+
+input[type=number]:focus{
+      -webkit-box-shadow:0 0 25px #ccc;
+	-moz-box-shadow:0 0 25px #ccc;
+	box-shadow:0 0 25px #ccc;
+      -webkit-transform: scale(1.05);
+      -moz-transform: scale(1.05);
+      transform: scale(1.05);
+}
+
+input:required, textarea:required { background: url(orange.png) no-repeat 280px 7px;}
+input:valid, textarea:valid { background: url(valid.png) no-repeat 280px 7px;}
+input:focus:invalid, textarea:focus:invalid { background: url(invalid.png) no-repeat 280px 7px;}
+
+input[type=submit]{background: #69c;color: #fff;opacity:1;}
+
+</style>
+</head>
+<body>
+
+<h1>Logger.js</h1>
+<form action="#" method="get" id="f1">
+<label for="n1">Compute SQRT</label>
+<input id="n1" type="number" placeholder="Enter a integer" autocomplete="off" required />
+<input type="submit" value="sqrt" id="solve1"/>
+</form>
+
+
+<form action="#" method="get" id="f2">
+<label for="n2">Compute subsets</label>
+<input id="n2" type="number" placeholder="Enter a integer" autocomplete="off" required />
+<input type="submit" value="subset" id="solve2"/>
+</form>
+
+<div id="wrapperpanel">
+<span>Logger Panel</span>
+<div id="firebug"></div>
+<button id="clear">clear</button>
+</div>
+
+<footer><p>@<a href="http://twitter.com/thinkphp">thinkphp</a></p></footer>
+
+   <script type="text/javascript" src="logger.min.js"></script> 
+   <script type="text/javascript" src="util.js"></script> 
+   <script type="text/javascript" src="math.js"></script> 
+
+   <script type="text/javascript">
+
+   var mylogger = new Logger(); 
+
+   var panel = document.getElementById("firebug");
+       panel.appendChild(mylogger.domElement);
+
+   var form1 = document.getElementById("f1"), 
+       form2 = document.getElementById("f2");
+
+   DOMUtil.addEvent(form1,'submit', function(event){
+
+       DOMUtil.cancelClick(event);
+       var n = parseInt(document.getElementById("n1").value); 
+       if(!isNaN(n)) {
+          mylogger.log('sqrt(' + n + ') = ' + math.sqrt(n));
+       } else {
+          alert("Is not a number");
+       }
+
+   },false);
+
+   DOMUtil.addEvent(form2,'submit', function(event){
+
+       DOMUtil.cancelClick(event); 
+       var n = document.getElementById("n2").value;
+       if(!isNaN(n)) {
+          mylogger.log(math.subset(n).join(","));
+       } else {
+          alert("Is not a number");
+       }
+
+   },false);
+
+   var clear = document.getElementById("clear");
+
+     DOMUtil.addEvent(clear,'click', function(){
+
+        mylogger.clear(); 
+
+   },false);
+   </script>
+</body>
+</html>
+
